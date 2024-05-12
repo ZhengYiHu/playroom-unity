@@ -30,7 +30,10 @@ namespace Playroom
 
         private static readonly Dictionary<string, Player> Players = new();
 
-
+        /// <summary>
+        /// Hides all SetState debug logs if set to false
+        /// </summary>
+        public static bool VerboseDebugMode = true;
 
         [Serializable]
         public class InitOptions
@@ -208,6 +211,14 @@ namespace Playroom
                 // Handle other types if needed
                 return JSON.Parse("{}");
             }
+        }
+
+        [DllImport("__Internal")]
+        private static extern void OpenDiscordInviteDialogInternal();
+
+        public static void OpenDiscordInviteDialogue()
+        {
+            OpenDiscordInviteDialogInternal();
         }
 
         [DllImport("__Internal")]
@@ -439,7 +450,7 @@ namespace Playroom
                 }
                 else
                 {
-                    Debug.Log($"State Set! Key: {key}, Value: {value}");
+                    if(VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {value}");
                     MockSetState(key, value);
                 }
             }
@@ -459,7 +470,7 @@ namespace Playroom
                 }
                 else
                 {
-                    Debug.Log($"State Set! Key: {key}, Value: {value}");
+                    if (VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {value}");
                     MockSetState(key, value);
                 }
             }
@@ -480,7 +491,7 @@ namespace Playroom
                 }
                 else
                 {
-                    Debug.Log($"State Set! Key: {key}, Value: {value}");
+                    if (VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {value}");
                     MockSetState(key, value);
                 }
             }
@@ -500,7 +511,7 @@ namespace Playroom
                 }
                 else
                 {
-                    Debug.Log($"State Set! Key: {key}, Value: {value}");
+                    if (VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {value}");
                     MockSetState(key, value);
                 }
             }
@@ -524,7 +535,7 @@ namespace Playroom
                 }
                 else
                 {
-                    Debug.Log($"State Set! Key: {key}, Value: {values}");
+                    if (VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {values}");
                     MockSetState(key, values);
                 }
             }
@@ -544,7 +555,7 @@ namespace Playroom
                 }
                 else
                 {
-                    Debug.Log($"State Set! Key: {key}, Value: {values}");
+                    if (VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {values}");
                     MockSetState(key, values);
                 }
             }
@@ -564,7 +575,7 @@ namespace Playroom
                 }
                 else
                 {
-                    Debug.Log($"State Set! Key: {key}, Value: {values}");
+                    if (VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {values}");
                     MockSetState(key, values);
                 }
             }
@@ -584,7 +595,7 @@ namespace Playroom
                 }
                 else
                 {
-                    Debug.Log($"State Set! Key: {key}, Value: {values}");
+                    if (VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {values}");
                     MockSetState(key, values);
                 }
             }
@@ -1344,8 +1355,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"PlayerState Set! Key: {key}, Value: {value}");
-                        MockSetState(key, value);
+                        if (VerboseDebugMode) Debug.Log($"PlayerState Set! Key: {key}, Value: {value}");
+                        MockSetState($"{id}_{key}", value);
                     }
                 }
             }
@@ -1365,8 +1376,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"PlayerState Set! Key: {key}, Value: {value}");
-                        MockSetState(key, value);
+                        if (VerboseDebugMode) Debug.Log($"PlayerState Set! Key: {key}, Value: {value}");
+                        MockSetState($"{id}_{key}", value);
                     }
                 }
             }
@@ -1385,8 +1396,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"PlayerState Set! Key: {key}, Value: {value}");
-                        MockSetState(key, value);
+                        if (VerboseDebugMode) Debug.Log($"PlayerState Set! Key: {key}, Value: {value}");
+                        MockSetState($"{id}_{key}", value);
                     }
                 }
             }
@@ -1405,8 +1416,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"PlayerState Set! Key: {key}, Value: {value}");
-                        MockSetState(key, value);
+                        if (VerboseDebugMode) Debug.Log($"PlayerState Set! Key: {key}, Value: {value}");
+                        MockSetState($"{id}_{key}", value);
                     }
                 }
             }
@@ -1426,8 +1437,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"State Set! Key: {key}, Value: {value}");
-                        MockSetState(key, value);
+                        if (VerboseDebugMode) Debug.Log($"State Set! Key: {key}, Value: {value}");
+                        MockSetState($"{id}_{key}", value);
                     }
                 }
             }
@@ -1455,7 +1466,7 @@ namespace Playroom
                     }
                     else
                     {
-                        return MockGetState<T>(key);
+                        return MockGetState<T>($"{id}_{key}");
                     }
                 }
             }
@@ -1477,7 +1488,7 @@ namespace Playroom
                     }
                     else
                     {
-                        return MockGetState<Dictionary<string, T>>(key);
+                        return MockGetState<Dictionary<string, T>>($"{id}_{key}");
                     }
                 }
             }
@@ -1497,7 +1508,7 @@ namespace Playroom
                     }
                     else
                     {
-                        return MockGetState<int>(key);
+                        return MockGetState<int>($"{id}_{key}");
                     }
                 }
             }
@@ -1517,7 +1528,7 @@ namespace Playroom
                     }
                     else
                     {
-                        return MockGetState<float>(key);
+                        return MockGetState<float>($"{id}_{key}");
                     }
                 }
             }
@@ -1537,7 +1548,7 @@ namespace Playroom
                     }
                     else
                     {
-                        return MockGetState<string>(key);
+                        return MockGetState<string>($"{id}_{key}");
                     }
                 }
             }
@@ -1569,7 +1580,7 @@ namespace Playroom
                     }
                     else
                     {
-                        return MockGetState<bool>(key);
+                        return MockGetState<bool>($"{id}_{key}");
                     }
                 }
             }
@@ -1589,8 +1600,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"PlayerState Set! Key: {key}, Value: {values}");
-                        MockSetState(key, values);
+                        if (VerboseDebugMode) Debug.Log($"PlayerState Set! Key: {key}, Value: {values}");
+                        MockSetState($"{id}_{key}", values);
                     }
                 }
             }
@@ -1609,8 +1620,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"PlayerState Set! Key: {key}, Value: {values}");
-                        MockSetState(key, values);
+                        if (VerboseDebugMode) Debug.Log($"PlayerState Set! Key: {key}, Value: {values}");
+                        MockSetState($"{id}_{key}", values);
                     }
                 }
             }
@@ -1629,8 +1640,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"PlayerState Set! Key: {key}, Value: {values}");
-                        MockSetState(key, values);
+                        if (VerboseDebugMode) Debug.Log($"PlayerState Set! Key: {key}, Value: {values}");
+                        MockSetState($"{id}_{key}", values);
                     }
                 }
             }
@@ -1649,8 +1660,8 @@ namespace Playroom
                     }
                     else
                     {
-                        Debug.Log($"PlayerState Set! Key: {key}, Value: {values}");
-                        MockSetState(key, values);
+                        if (VerboseDebugMode) Debug.Log($"PlayerState Set! Key: {key}, Value: {values}");
+                        MockSetState($"{id}_{key}", values);
                     }
                 }
             }
@@ -1844,6 +1855,19 @@ namespace Playroom
                 // Output the JSON string
                 SetPlayerStateDictionary(id, key, jsonString, reliable);
             }
+        }
+
+        /// <summary>
+        /// Resets all static variables if the editor is set not to Reset Domains on Play
+        /// </summary>
+        public static void ResetDomains()
+        {
+            MockDictionary.Clear();
+            Players.Clear();
+            InsertCoinCallback = null;
+            OnDisconnectCallback = null;
+            OnPlayerJoinCallbacks.Clear();
+            rpcRegisterCallbacks.Clear();
         }
     }
 

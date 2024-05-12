@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
+        PlayroomKit.VerboseDebugMode = false;
         PlayroomKit.InsertCoin(new PlayroomKit.InitOptions()
         {
             maxPlayersPerRoom = 2,
@@ -200,5 +201,24 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Player is not in dictionary");
         }
 
+    }
+
+    [ContextMenu("Add Another Player")]
+    public void AddOtherPlayer()
+    {
+        PlayroomKit.Player otherPlayer = PlayroomKit.GetPlayer("mockPlayer2");
+        AddPlayer(otherPlayer);
+
+
+        int index = players.IndexOf(otherPlayer);
+        players[index].SetState("pos", playerGameObjects[index].GetComponent<Transform>().position);
+    }
+
+    private void OnApplicationQuit()
+    {
+        players.Clear();
+        playerGameObjects.Clear();
+        PlayerDict.Clear();
+        Playroom.PlayroomKit.ResetDomains();
     }
 }
